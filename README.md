@@ -106,154 +106,116 @@ Setelah itu buka CMDER (untuk Windows) atau terminal (Mac dan Linux), kemudian d
 
 Untuk memeriksa bahwa suatu folder / directory sudah menjadi repository git atau belum, kita akan menggunakan perintah `git status`.
 
-## 4.3 Membuat File Baru dan Commit
+## 4.3 Membuat File Baru dan tambahkan ke repository git
 
 Karena ini adalah repository pertama dan masih kosong, maka kita akan membuat file baru beri nama `readme.md` dan biarkan isinya kosong.
 
+Setelah dibuat file baru, kita akan menggunakan perintah `git add` untuk menambahkannya kedalam repository git.
 
-Kita buat template project yang real, bukan hello world doang.
-mkdir data-siswa-smk
- cd data-siswa-smk
- git init
+`git add readme.md`
 
- # Struktur project anti ribet
- echo "# Aplikasi Data Siswa SMK" > README.md
- mkdir css js
+Namun, pada perintah ini, file hanya baru ditambahkan pada kondisi staging, yang mana file masih bisa diubah lagi dan belum bisa dianggap benar-benar masuk kedalam repository git.
 
+## 4.4 Git Commit
 
+Git commit adalah perintah untuk mempantenkan atau berkomitmen terhadap perubahan yang telah dilakukan. Artinya setiap perubahan pada file-file yang kita edit atau file yang baru ditambahkan akan dikunci. Di perintah ini juga kita akan diminta untuk memasukan catatan perubahannya juga.
 
-File index.html (list data siswa):
-<!DOCTYPE html>
- <html lang="id">
- <head>
-   <meta charset="UTF-8">
-   <title>Data Siswa XII RPL</title>
-   <link rel="stylesheet" href="css/style.css">
- </head>
- <body>
-   <h1>Data Siswa Kelas XII RPL</h1>
-   <ul id="list-siswa">
- 	<li>Andi - XII RPL 1 - NIS: 12301</li>
- 	<li>Budi - XII RPL 1 - NIS: 12302</li>
-   </ul>
-   <script src="js/script.js"></script>
- </body>
- </html>
-File data.json:
-{"siswa": [{"nama": "Andi", "kelas": "XII RPL 1", "nis": "12301"}]}
-File js/script.js (render list):
-const list = document.getElementById("list-siswa");
- // nanti fetch dari data.json
-6. Commit Pertama
-git add .
- git commit -m "Initial: struktur awal aplikasi data siswa"
- git log --oneline
-7. Set Remote & Push via SSH
-Buat repo kosong di GitHub bernama data-siswa-smk (JANGAN centang Add README)
-git remote add origin git@github.com:USERNAME/data-siswa-smk.git
- git branch -M main
- git push -u origin main
-8. Alur Kolaborasi Tim - Clone
-Untuk teman satu tim:
- git clone git@github.com:USERNAME/data-siswa-smk.git
- cd data-siswa-smk
-9. Branching - Satu Fitur Satu Branch
-Aturan: JANGAN EDIT DI MAIN!
+Contoh perintah:
+
+`git commit -m "FEAT: readme.md"
+
+Catatan pada `git commit` sebenarnya bebas, namun pada contoh kali ini akan menggunakan kaidah git commit standar supaya lebih pendek. Berikut adalah penjelasannya.
+
+- `FEAT:` kependekan dari kata FEATURE, yang mana pada commit ini berarti ada penambahan fitur
+- `readme.md` implementasi fitur yang ditambahkan pada file
+
+Setelah berhasil menjalankan perintah `git commit`, sistem akan menampilkan commit kode. Lihat pada contoh dibawah ini:
+
+```
+[main aba982a] Install git docs
+ 4 files changed, 282 insertions(+), 106 deletions(-)
+ delete mode 100644 data_siswa.php
+ delete mode 100644 data_siswa_builder.php
+```
+
+Penjelasan:
+- `main` adalah branch yang dipakai
+- `aba982a` adalah commit kode
+- Dibawahnya adalah ringkasan file yang sudah terpengaruh perubahan
+
+## 4.5 Git Branch
+
+Git branch merupakan percabangan suatu kejadi berdasarkan posisi commit tertentu. Pada sebuah repository git, branch utama itu biasanya diberi nama `master` atau `main`. Branch ini dibuat commit terakhir yang sudah ada. Tapi bisa saja dibuat dengan commit kode tertentu. 
+
+Git branch membantu kode kita supaya tidak bercampur dengan kode yang lain. Biasanya nama branch ini diambil dari nama fitur yang akan kita buat. Contoh pembuatan branch baru dan pindah langsung ke branch yang baru kita buat.
+
+```
+git checkout -b feature/login
+Switched to a new branch 'feature/login'
+```
+
+Contoh untuk verifikasi branch dengan `git status`.
+```
+git status
+On branch feature/login
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+Semua perintah `git add`, `git commit` akan terisolasi di dalam branch ini (`feature/login`). Jadi branch main tidak tersenggol sedikit pun.
+
+## 4.6 Git merge
+
+Git merge adalah perintah untuk menggabungkan branch lain ke branch yang sedang kita gunakan saat ini. Pada contoh sebelumnya kita telah memiliki 2 branch yaitu branch default (main atau master) dan branch baru `feature/login. Anggaplah kita sudah menambahkan 2 commit baru pada feature branch dan kita akan menggabungkannya ke main. Berikut ini adalah contohnya.
+
+```
 git checkout main
- git pull --rebase origin main
- git checkout -b fitur-tambah-siswa
+git merge feature/login
+```
 
- # lalu edit index.html: tambah form
- # edit data.json & script.js
- git add .
- git commit -m "Fitur: form tambah siswa"
- git push -u origin fitur-tambah-siswa
-10. Pull Request (PR) di GitHub
-1. Buka GitHub -> akan muncul banner 'Compare & pull request'
- 2. Judul PR: Fitur: Tambah Siswa
- 3. Deskripsi: Menambahkan form input + validasi NIS
- 4. Create Pull Request
- 5. Minta teman review
-11. Approve & Merge
-Di halaman PR -> Review changes -> Approve -> Merge pull request -> Confirm -> Delete branch (di GitHub)
-12. Update Lokal Setelah Merge - INI KUNCINYA!
-Wajib setelah PR di-merge!
-git checkout main
- git pull --rebase origin main
- # Sekarang main lokal kamu = main di GitHub. Bersih.
-13. DEMO CONFLICT - Skenario Kelas (Paling Penting)
-Ini yang bikin materi ini beda. Kita sengaja bikin conflict biar siswa tidak panik.
-Skenario A: Conflict di index.html
-Siswa A dan B sama-sama mulai dari main yang sama.
+### 4.6.1 Metode merging git
 
- Siswa A:
- git checkout -b fitur-siswa-3
- Edit <li>Andi</li> menjadi <li>Andi - Juara Lomba</li>
- Commit & Push & Merge ke main
+Ada 3 metode yang paling contrast yaitu merge, fast-forward (FF) dan rebase. Di beberapa perusahaan teknologi, ada yang tidak boleh menggunakan metode merge secara langsung. Jadi pasti harus menggunakan metode Fast Forward atau Rebase. metode rebase ini adalah metode yang lumayan sulit dan sering conflict, tapi hasilnya kodenya rapi.
 
- Siswa B (lupa pull):
- Masih di main lama, bikin branch fitur-siswa-4
- Edit baris yang SAMA: <li>Andi</li> menjadi <li>Andi - Ketua OSIS</li>
- Commit & Push -> PR -> Akan ada tulisan 'Can't auto-merge'
+# 5. Repository Github
 
- Solusi di Laptop Siswa B:
- git checkout main
- git pull --rebase origin main # sekarang main sudah ada update Siswa A
- git checkout fitur-siswa-4
- git rebase main
- # AKAN MUNCUL CONFLICT!
-Cara Selesaikan Conflict (Visual VS Code)
-VS Code akan menampilkan:
- <<<<<<< HEAD
- <li>Andi - Juara Lomba</li>
- =======
- <li>Andi - Ketua OSIS</li>
- >>>>>>> fitur-siswa-4
+Pada repository github, sama seperti halnya pada repository git. Namun, pada github ini bisa diakses online sehingga proses kolaborasi kode antar programmer bisa dilakukan dimanapun dan kapanpun. Arti singkatnya github ini repository online. Selain github masih banyak, ada bitbucket, ada gitlens, git tea, dan masih banyak lagi.
 
- Langkah:
- 1. Diskusikan dengan teman (kolaborasi!)
- 2. Pilih gabungkan manual: <li>Andi - Juara Lomba & Ketua OSIS</li>
- 3. Hapus tanda <<<<<< ====== >>>>>>
- 4. git add index.html
- 5. git rebase --continue
- 6. git push -f (karena sudah rebase, wajib force push di branch fitur)
- 7. PR jadi bisa di-merge
-Skenario B: Conflict di data.json
+Semua repository online konsep dasarnya sebenarnya sama, `git checkout -b nama/branch` -> `git add` / `git rm` -> `git commit` -> `git merge`. Namun, perbedaannya antara repository online dengan repository local itu terletak pada proses merge dan branchnya. Karena branch kita bisa bentrok apabila menggunakan yang sama dengan nama branch programmer lain. Dan ada juga perintah git yang hanya bisa dilakukan di github.
 
- Tips Anti Ribet data.json:
- - Selalu format JSON dengan Prettier
- - Satu siswa satu object, jangan edit object orang lain
- - Gunakan git pull --rebase origin main SEBELUM mulai ngoding
-14. Alur Harian Wajib (Tempel di Dinding Lab)
-# SETIAP MAU MULAI NGODING:
- git checkout main
- git pull --rebase origin main
- git checkout -b fitur-nama-fitur-kamu
+## 5.1 Git fork
 
- # ... kerjakan ...
+Git fork adalah proses untuk `copy paste` kode dari repository online orang lain ke repository online kita. Caranya adalah kita masuk terlebih dahulu ke repository kemudian tekan tombol `Fork` nanti akan ada tampilan untuk memilih tujuan repository online-nya.
 
- git add .
- git commit -m "Jelas: apa yang kamu ubah"
- git push -u origin fitur-nama-fitur-kamu
-
- # Buka GitHub -> Buat PR
-
- # SETELAH PR DI-MERGE:
- git checkout main
- git pull --rebase origin main
- git branch -d fitur-nama-fitur-kamu
+Contoh: 
+- buka halaman github.com/drosanda/seme-framework
+- klik fork nanti akan muncul halaman baru, pada bagian bawah kanan klik tombol fork. Setelah itu repository tersebut akan dipindahkan ke repository online kita
 
 
+## 5.2 git clone
 
-15. Cheat Sheet Perintah
+Git clone adalah perintah untuk `copy paste` kode dari repository online ke komputer kita sebagai repository local sehingga kita bisa memulai merubah kodenya tanpa download secara manual. 
+
+Tadi kita sudah mencoba fork repository, sekarang kita akan clone repository tersebut supaya bisa diakses dari komputer kita.
+
+Contoh `git clone https://github.com/USERNAMEGITHUB/seme-framework`.
+
+## 5.3 git fetch
+
+Perintah git fetch 
+
+# Cheat Sheet Perintah git
+```
 git status -> cek status
- git log --oneline --graph --all -> cek history
- git diff -> lihat perubahan
- git checkout -b nama-branch -> bikin branch baru
- git pull --rebase origin main -> update main paling aman
- git rebase main -> rapikan branch dengan main terbaru
- git rebase --abort -> batalkan rebase kalau bingung
- git push -f -> push setelah rebase (hanya di branch fitur!)
- 
-
-
+git log --oneline --graph --all -> cek history
+git diff -> lihat perubahan
+git checkout -b nama-branch -> bikin branch baru
+git pull --rebase origin main -> update main paling aman
+git rebase main -> rapikan branch dengan main terbaru
+git rebase --abort -> batalkan rebase kalau bingung
+git push -f -> push setelah rebase (hanya di branch fitur!)
+```
