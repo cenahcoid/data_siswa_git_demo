@@ -1,6 +1,3 @@
-<?php
-require_once 'data_siswa.php';
-?>
 <html>
     <head>
         <title>Table Siswa</title>
@@ -8,25 +5,31 @@ require_once 'data_siswa.php';
 <body>
     <h1>Table Siswa</h1>
     <table border="1">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Kelas</th>
+                <th>Jenis Kelamin</th>
+            </tr>
+        </thead>
+        <tbody>
         <tr>
-            <th>No</th>
-            <th>Nama</th>
-            <th>Kelas</th>
-            <th>Jenis Kelamin</th>
+            <td>1</td>
+            <td>Ahmad</td>
+            <td>XI</td>
+            <td>L</td>
         </tr>
-        <?php
-        $data_siswa = new data_siswa();
-        $siswa = $data_siswa->get();
-        $no = 1;
-        foreach ($siswa as $data) {
-            echo "<tr>";
-            echo "<td>" . $no++ . "</td>";
-            echo "<td>" . $data->nama . "</td>";
-            echo "<td>" . $data->kelas . "</td>";
-            echo "<td>" . $data->jenis_kelamin . "</td>";
-            echo "</tr>";
-        }
-        ?>
+        <tr>
+            <td>2</td>
+            <td>Sinta</td>
+            <td>XI</td>
+            <td>P</td>
+        </tr>
+        <!-- mulai ngoding disini -->
+        <!-- akhir ngoding disini -->
+
+        </tbody>
     </table>
 </body>
 </html>
