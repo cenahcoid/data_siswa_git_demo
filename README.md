@@ -187,9 +187,9 @@ Pada repository github, sama seperti halnya pada repository git. Namun, pada git
 
 Semua repository online konsep dasarnya sebenarnya sama, `git checkout -b nama/branch` -> `git add` / `git rm` -> `git commit` -> `git merge`. Namun, perbedaannya antara repository online dengan repository local itu terletak pada proses merge dan branchnya. Karena branch kita bisa bentrok apabila menggunakan yang sama dengan nama branch programmer lain. Dan ada juga perintah git yang hanya bisa dilakukan di github.
 
-## 5.1 Git fork
+## 5.1 Github fork
 
-Git fork adalah proses untuk `copy paste` kode dari repository online orang lain ke repository online kita. Caranya adalah kita masuk terlebih dahulu ke repository kemudian tekan tombol `Fork` nanti akan ada tampilan untuk memilih tujuan repository online-nya.
+Github fork adalah proses untuk `copy paste` kode dari repository online orang lain ke repository online kita. Caranya adalah kita masuk terlebih dahulu ke repository kemudian tekan tombol `Fork` nanti akan ada tampilan untuk memilih tujuan repository online-nya.
 
 Contoh: 
 - buka halaman github.com/drosanda/seme-framework
@@ -206,7 +206,122 @@ Contoh `git clone https://github.com/USERNAMEGITHUB/seme-framework`.
 
 ## 5.3 git fetch
 
-Perintah git fetch 
+Perintah git fetch ini untuk mengambil seluruh perubahan yang terjadi pada repository online. repository online ini biasanya kita sebut dengan mana remote repository, yang mana dengan perintah ini kita akan mendapatkan perubahan terkini dari kode yang sudah diubah.
+
+contoh `git fetch --all`
+
+## 5.4 git remote
+
+Perintah git remote ini untuk melihat ada online repository apa saja yang sudah terdaftar pada repository local yang ada di komputer kita. Di beberapa perusahaan IT, biasanya memiliki lebih dari 2 remote repository. Dan itu memiliki kegunaan tertentu. Misalkan remote repository untuk release aplikasi dan remote repository untuk development. 
+
+Nama default dari remote repository ini adalah origin.
+
+Berikut ini contoh penggunaan perintahnya:
+
+```shell
+git remote add tca git@git.cenah.co.id:/repo/release/app.git # menambahkan remote repository dengan nama tca
+
+git remote -v # untuk melihat ada remote repository apa saja
+# contoh output
+#origin  git@github.com:cenahcoid/data_siswa_git_demo.git (fetch)
+#origin  git@github.com:cenahcoid/data_siswa_git_demo.git (push)
+#tca  git@git.cenah.co.id:/repo/release/app.git (fetch)
+#tca  git@git.cenah.co.id:/repo/release/app.git (push)
+```
+
+## 5.5 Git push
+
+Perintah git push digunakan untuk mengupload kode kita yang sudah di commit sebelumnya, sehingga kita bisa melakukan proses merging pada online repository seperti github. Contoh `git push origin nama/branch`.
+
+## 5.6 github pull request
+
+Github pull request merupakan fitur unik yang ada pada layanan github sebagai proses review sebelum kode di merging dengan branch lainnya. Dalam hal ini branch feature akan di merge ke branch main. Ini tidak ada perintahnya, ini hanya bisa dilakukan melalui halaman github.
+
+## 5.7 git pull
+
+Perintah git pull hampir mirip dengan git fetch, namun bedanya git pull ini akan otomatis menimpa kode dengan yang terbaru. Kalau git fetch hanya akan mengambil update terakhir dari online repository.
+
+Contoh:
+```
+git pull origin main
+```
+
+# 6. Praktek github fork
+
+- Silakan bukan repository ini -> https://github.com/cenahcoid/data_siswa_git_demo
+- kemudian klik tombol fork
+- isi dan sesuaikan
+- klik tombol fork di kanan bawah
+
+# 7. Praktek Github Pull Request
+
+## 7.1 git clone
+
+Buka CMDER atau poweshell atau terminal, kemudian jalankan perintah clone ini
+
+```
+git@github.com:cenahcoid/data_siswa_git_demo.git
+```
+
+## 7.2 Membuat branch baru
+
+Buat branch baru beri nama `feature/kelas/nama_lengkap` semua huruf kecil dan jangan pakai spasi. Ganti spasi dengan underscore.
+
+contoh:
+
+```shell
+git branch "feature/xi_1/daeng_rosanda"
+```
+
+## 7.3 Edit file
+
+Edit file `index.php` tambahkan nama kalian pada kode yang sudah disediakan
+
+## 7.4 git add dan commit
+
+Setelah selesai `git add index.php` kemudian commit. 
+
+Contoh:
+
+```shell
+git add index.php
+git commit -m "FEAT: Daeng Rosanda - XI-1"
+```
+
+## 7.5 git push
+
+Setelah selesai kita akan coba push.
+
+```
+git push origin feature/xi_1/daeng_rosanda
+```
+
+## 7.6 Buat pull request di github
+
+Buka halaman pull request di github -> https://github.com/cenahcoid/data_siswa_git_demo/pulls kemudian klik tombol New Pull Request. 
+
+Pastikan:
+- base branch nya itu main
+- compare nya itu branch kalian
+
+Kemudian isi title dan description. Setelah itu klik tombol pull request.
+
+## 7.7 Review code
+
+Nanti salah seorang akan mencoba review, dan memutuskan untuk approve atau tidak.
+
+## 7.8 github merge
+
+Nanti kita akan coba merge
+
+## 7.9 git fetch dan git pull
+
+Setelah di merge, kode di remote repository akan berubah. Sehingga di local repository kita perlu perlu mengeksekusi `git fetch --all`. Setelah itu kita harus pindah ke branch main supaya kode branch main nya bisa diupdate kode terbaru.
+
+`git pull origin main`
+
+Setelah itu lihat perubahannya.
+
 
 # Cheat Sheet Perintah git
 ```
